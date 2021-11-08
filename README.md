@@ -1,2 +1,2 @@
-# GAD-2-CurrencyConvertor
+# GAD-2-RandomNumberGuesserGame
 homework 2 - flutter course
