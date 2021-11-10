@@ -27,20 +27,32 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const String GUESS_BUTTON_TEXT = 'Guess!';
+  static const String RESET_BUTTON_TEXT = 'Reset!';
+
   final TextEditingController controller = TextEditingController();
 
+  // value received from the user input
   int? valueReceived;
+
+  // random number you have to guess
   int randomNumberToBeGuessed = Random().nextInt(99) + 1;
 
   bool isStatusTextVisible = false;
+
+  // variable that tells if dialog should show or not
   bool isPopUpAvailable = false;
+
+  // variable that tells if reset button appears
   bool isReset = false;
   bool isTextFieldEnabled = true;
 
   String hintText = '';
-  String cardButtonText = 'Guess!';
+  // the elevated button insside the card can be either guess! nor reset!
+  String cardButtonText = GUESS_BUTTON_TEXT;
   String? errorText;
 
+  // this function checks if the value inputted is correct and then compares it with the one that has to be guessed
   void checkValue() {
     if (controller.text.isEmpty) {
       isStatusTextVisible = false;
@@ -71,15 +83,17 @@ class _HomePageState extends State<HomePage> {
     controller.clear();
   }
 
+  // this function shows game state after clicking OK in dialog
   void showGameState(BuildContext context) {
     Navigator.of(context).pop();
     isPopUpAvailable = false;
     randomNumberToBeGuessed = Random().nextInt(99) + 1;
     isTextFieldEnabled = false;
     isReset = true;
-    cardButtonText = 'Reset!';
+    cardButtonText = RESET_BUTTON_TEXT;
   }
 
+  // this function resets the game after clicking Try again in dialog
   void resetGame(BuildContext context) {
     Navigator.of(context).pop();
     isPopUpAvailable = false;
@@ -87,6 +101,7 @@ class _HomePageState extends State<HomePage> {
     randomNumberToBeGuessed = Random().nextInt(99) + 1;
   }
 
+  // this functions shows the dialog
   void showPopUp() {
     showDialog(
       context: context,
@@ -108,13 +123,17 @@ class _HomePageState extends State<HomePage> {
               children: [
                 TextButton(
                   onPressed: () {
-                    resetGame(context);
+                    setState(() {
+                      resetGame(context);
+                    });
                   },
                   child: const Text('Try again!'),
                 ),
                 TextButton(
                   onPressed: () {
-                    showGameState(context);
+                    setState(() {
+                      showGameState(context);
+                    });
                   },
                   child: const Text('OK'),
                 )
@@ -126,23 +145,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void checkReset() {
+  // this function sets reset mode
+  void setReset() {
     if (isReset) {
       isStatusTextVisible = false;
       isTextFieldEnabled = true;
       isReset = false;
-     }
+      errorText = null;
+    }
   }
 
+  // this function does the game logic and runs it
   void gameLogic() {
     checkValue();
     if (isPopUpAvailable) {
+      FocusScope.of(context).unfocus();
       showPopUp();
     }
 
-    checkReset();
+    setReset();
 
-    cardButtonText = 'Guess!';
+    cardButtonText = GUESS_BUTTON_TEXT;
   }
 
   @override
