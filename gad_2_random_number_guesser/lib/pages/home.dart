@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+const String guessButtonText = 'Guess!';
+const String resetButtonText = 'Reset!';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -12,8 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const String GUESS_BUTTON_TEXT = 'Guess!';
-  static const String RESET_BUTTON_TEXT = 'Reset!';
 
   final TextEditingController controller = TextEditingController();
   final TextEditingController cardController = TextEditingController();
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   String hintText = '';
 
   // the elevated button insside the card can be either guess! nor reset!
-  String cardButtonText = GUESS_BUTTON_TEXT;
+  String cardButtonText = guessButtonText;
   String? errorText;
 
   @override
@@ -136,6 +137,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              // ignore: avoid_print
                               print('$randomNumberToBeGuessed');
 
                               setState(() {
@@ -205,7 +207,7 @@ class _HomePageState extends State<HomePage> {
     isStatusTextVisible = true;
     isTextFieldEnabled = false;
     isReset = true;
-    cardButtonText = RESET_BUTTON_TEXT;
+    cardButtonText = resetButtonText;
   }
 
   // this function resets the game after clicking Try again in dialog
@@ -298,7 +300,7 @@ class _HomePageState extends State<HomePage> {
 
     setReset();
 
-    cardButtonText = GUESS_BUTTON_TEXT;
+    cardButtonText = guessButtonText;
   }
 
   void savePlayerRecord(String name, int score) async {
