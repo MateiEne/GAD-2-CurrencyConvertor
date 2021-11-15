@@ -307,6 +307,6 @@ class _HomePageState extends State<HomePage> {
     List<String> leaderboardList = prefs.getStringList("leaderboard") ?? [];
     leaderboardList.add('$name $score');
 
-    await prefs.setStringList('leaderboard', leaderboardList);
+    prefs.setStringList('leaderboard', leaderboardList);
   }
 }
